@@ -20,6 +20,10 @@
             --glitch-secondary: rgba(255, 0, 255, 0.5);
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -96,6 +100,7 @@
             display: flex;
             justify-content: center;
             list-style: none;
+            transition: max-height 0.3s ease-in-out;
         }
 
         nav ul li a {
@@ -107,6 +112,46 @@
 
         nav ul li a:hover {
             color: var(--neon-pink);
+        }
+
+        /* Hamburger Menu Styles */
+        .hamburger {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--neon-blue);
+            cursor: pointer;
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Responsive Navigation */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(10, 10, 26, 0.9);
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease-in-out;
+            }
+
+            nav ul.active {
+                max-height: 500px; /* Arbitrary large value to allow menu expansion */
+            }
+
+            nav ul li {
+                margin: 1rem 0;
+                text-align: center;
+            }
+
+            .hamburger {
+                display: block;
+            }
         }
 
         /* Hero Section */
@@ -145,6 +190,20 @@
             color: var(--neon-pink);
             font-size: 1.5rem;
             z-index: 10;
+        }
+
+
+        .about h3{
+            padding: 2rem 0;
+        }
+
+        .about-me {
+            padding: 2rem 0;
+            height: 30vh;
+        }
+
+        .about-me h2{
+            padding: 2rem 0;
         }
 
         /* Timeline Styles */
@@ -218,6 +277,14 @@
             font-weight: bold;
         }
 
+        /* Projects */
+        .projects{
+            height:80vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
         .project-card img {
             width: 100%;
             height: 250px;
@@ -229,8 +296,8 @@
             transform: scale(1.1);
         }
 
-        /* Projects */
         .project-container {
+            margin-top:50px;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
@@ -251,6 +318,14 @@
             border-color: var(--neon-pink);
         }
 
+        .contact{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 50vh;
+        }
+
         /* Footer */
         footer {
             background: rgba(10, 10, 26, 0.8);
@@ -269,11 +344,25 @@
                 margin: 10px 0;
             }
         }
+
+        /* Centering Text and Elements Globally */
+        .container, .skills, .projects, .contact, footer, .about {
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        /* Optional: Adjust Hero Section Text Alignment */
+        .hero h1, .hero p {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav>
+        <div class="hamburger">
+            <i class="fas fa-bars"></i>
+        </div>
         <ul>
             <li><a href="#hero">Home</a></li>
             <li><a href="#about">About</a></li>
@@ -292,8 +381,11 @@
     <!-- About Section -->
     <section id="about" class="about">
         <div class="container">
-            <h2 class="glitch">About Me</h2>
-            <p>Quantum-powered full-stack developer navigating the digital realm. Crafting immersive experiences at the intersection of code and creativity.</p>
+            <div class="about-me">
+                <h2 class="glitch">About Me</h2>
+                <p>Quantum-powered full-stack developer navigating the digital realm. Crafting immersive experiences at the intersection of code and creativity.</p>
+            </div>
+            
             
             <h3>Work Experience</h3>
             <div class="timeline">
@@ -428,6 +520,27 @@
             });
             el.addEventListener('mouseout', () => {
                 el.style.animation = 'none';
+            });
+        });
+
+        // Hamburger Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('nav ul');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            // Toggle hamburger icon between bars and times
+            hamburger.querySelector('i').classList.toggle('fa-times');
+        });
+
+        // Close the menu when a link is clicked (optional)
+        const navItems = document.querySelectorAll('nav ul li a');
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                }
             });
         });
     </script>
